@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common/head :: head">
+    <title id="pageTitle">Board New</title>
+</head>
+
+<body>
+    <div class="container">
+        <h4 class="card-title mt-5">신규작성</h4>
+
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요.">
+            </div>
+
+            <div class="form-group">
+                <label for="writer">작성자</label>
+                <input type="text" class="form-control" id="writer" name="writer" placeholder="이름을 입력하세요.">
+            </div>
+
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요.">
+            </div>
+
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" id="content" name="content" rows="5"></textarea>
+            </div>
+
+            <button class="btn btn-primary" onclick="onSaveBtn()">작성</button>
+            <script th:inline="javascript">
+                function onSaveBtn() {
+                    let title = $('#title').val();
+                    let writer = $('#writer').val();
+                    let password = $('#password').val();
+                    let content = $('#content').val();
+
+
+                    if(title.length < 1){
+                        alert("제목을 입력해주세요")
+                        return;
+                    }
+                    if(writer.length < 1){
+                        alert("이름을 입력해주세요")
+                        return;
+                    }
+                    if(password.length < 4){
+                        alert("비밀번호를 4글자 이상 입력해주세요");
+                        return;
+                    }
+                    if(content.length < 1){
+                        alert("내용을 입력해주세요");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/board",
+                        method: "POST",
+                        data: {
+                            "title": title,
+                            "writer": writer,
+                            "password": password,
+                            "content": content
+                        }
+                    }).done(function (boardId) {
+                        location.href = "/board" + boardId;
+                    }).fail(function (res) {
+                        console.log(res)
+                        alert(res.responseText);
+                    });
+                }
+            </script>
+            <a class="btn btn-outline-danger" onclick="window.location.href='/board'">돌아가기</a>
+    </div>
+
+    <div th:replace="~{common/jsplugin :: jsplugin }"></div>
+</body>
+</html>

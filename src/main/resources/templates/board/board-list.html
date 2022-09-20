@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head th:include="common/head :: head">
+  <title id="pageTitle">Board List</title>
+</head>
+
+<body>
+
+  <!-- 게시판 -->
+  <div class="page-content page-container mt-5" id="page-content">
+
+    <div class="padding">
+      <div class="row container d-flex justify-content-center">
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">
+                익명 게시판
+                <button class="btn-dark" onclick="window.location.href='/board/new'">신규작성</button>
+              </h4>
+
+              <div class="table-responsive">
+                <table class="table">
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>제목</th>
+                      <th>작성자</th>
+                      <th>작성시간</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr th:each="board, idx:${boardList}">
+                      <td th:utext="*{idx.index}+1">idx</td>
+                      <td>
+                        <a th:href="@{/board/{boardId}(boardId=${board.boardId})}" th:text="*{board.title}">제목</a>
+                      </td>
+                      <td th:text="*{board.writer}">작성자</td>
+                      <td th:text="*{#temporals.format(board.createdAt,'yyyy-MM-dd HH:mm')}">작성시간</td>
+                    </tr>
+                    <script>
+                      function goBoardDetail(boardId){
+                        window.location.href = "/board/" + boardId;
+                      }
+                    </script>
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div th:replace="~{common/jsplugin :: jsplugin }"></div>
+</body>
+</html>

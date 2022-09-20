@@ -1,0 +1,19 @@
+sever:
+  port: 8080
+
+---
+spring:
+  profiles:
+    active: local
+    name: Demo Board - Local
+  banner:
+    location: classpath:banner/banner-local.txt
+  datasource:
+    username: demoboard
+    password: demo9999!
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/demo-board
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+---
