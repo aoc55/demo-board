@@ -1,9 +1,8 @@
-FROM eclipse-temurin:11
+FROM eclipse-temurin:17
 LABEL authors="gh.k"
 
-WORKDIR /app
-COPY ./build/libs/demo-board-0.0.1-SNAPSHOT.jar /app/demo-board.jar
+COPY ./build/libs/demo-board-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "demo-board.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
