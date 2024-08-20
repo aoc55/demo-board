@@ -1,11 +1,11 @@
 package com.aoc55.demoboard.domain;
 
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 /**
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter @Setter
 public class DefaultEntity {
+
     @CreatedDate
     private LocalDateTime createdAt;
 

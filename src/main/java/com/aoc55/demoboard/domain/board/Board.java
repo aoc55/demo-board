@@ -1,9 +1,9 @@
 package com.aoc55.demoboard.domain.board;
 
 import com.aoc55.demoboard.domain.DefaultEntity;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 
 /**
  * Board Entity
@@ -16,7 +16,8 @@ import javax.persistence.*;
 @Builder @NoArgsConstructor @AllArgsConstructor
 public class Board extends DefaultEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
     private String title;
