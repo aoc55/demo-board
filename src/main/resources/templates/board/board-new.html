@@ -65,7 +65,7 @@
                             "content": content
                         }
                     }).done(function (boardId) {
-                        location.href = "/board" + boardId;
+                        location.href = "/board/" + boardId;
                     }).fail(function (res) {
                         console.log(res)
                         alert(res.responseText);

@@ -5,10 +5,13 @@ import com.aoc55.demoboard.domain.board.BoardRepository;
 import com.aoc55.demoboard.utils.MapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,28 +27,43 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<BoardResponse> selectAll(){
-        return boardRepository.findAll().stream().map(
-                board -> MapperUtils.map(board, BoardResponse.class)).collect(Collectors.toList());
+        List<Board> boardList = boardRepository.findAll();
+        return boardList.stream().map(b -> MapperUtils.map(b, BoardResponse.class)).toList();
     }
 
     @Transactional(readOnly = true)
     public BoardResponse selectOne(Long boardId){
-        return MapperUtils.map(boardRepository.findById(boardId), BoardResponse.class);
+        Board board = boardRepository.findById(boardId).orElseThrow(IllegalStateException::new);
+        return MapperUtils.map(board, BoardResponse.class);
     }
 
     @Transactional
     public Long create(BoardRequest boardRequest){
-        Board savedBoard = boardRepository.save(MapperUtils.map(boardRequest, Board.class));
-        return savedBoard.getBoardId();
-    }
-    @Transactional
-    public Boolean delete(Long boardId, String password){
-        Board board = boardRepository.findById(boardId).orElseThrow(IllegalStateException::new);
-        if(board.getPassword().equals(password)){
-            boardRepository.deleteById(boardId);
-            return true;
-        }
-        return false;
+        Board newBoard = MapperUtils.map(boardRequest, Board.class);
+        newBoard = boardRepository.save(newBoard);
+        log.info("게시글 등록 완료 (boardId={})", newBoard.getBoardId());
+        return newBoard.getBoardId();
     }
 
+    @Transactional
+    public boolean delete(Long boardId, String password){
+        Board board = boardRepository.findById(boardId).orElseThrow(IllegalStateException::new);
+        if(checkPassword(board, password)) {
+            boardRepository.deleteById(board.getBoardId());
+            log.info("게시글 삭제 완료 (boardId={})", boardId);
+            return true;
+        } else {
+            log.warn("게시글 삭제 실패 (boardId={})", boardId);
+            return false;
+        }
+    }
+
+    private boolean checkPassword(Board board, String password) {
+        if(board.getPassword().equals(password)) {
+            return true;
+        } else {
+            log.warn("비밀번호 불일치 (boardId={})", board.getBoardId());
+            return false;
+        }
+    }
 }
