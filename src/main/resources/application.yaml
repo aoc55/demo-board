@@ -2,12 +2,17 @@ sever:
   port: 8080
 
 spring:
-#  datasource:
-#    username: demoboard
-#    password: demo1234!
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    # jdbc:mariadb://mariadb:3306/demo-board
+    url: jdbc:mariadb://${DB_URL}:${DB_PORT}/demo-board
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
       hibernate:
         ddl-auto: none
+
+logging.level.root: info
 
 ---
 spring:
@@ -17,12 +22,12 @@ spring:
   banner:
     location: classpath:banner/banner-local.txt
   datasource:
-    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:demoboard
+    username: sa
   jpa:
     hibernate:
       ddl-auto: create-drop
-
-logging.level.root: info
 
 ---
 spring:
@@ -31,14 +36,6 @@ spring:
     name: Demo Board - DEV
   banner:
     location: classpath:banner/banner-dev.txt
-  datasource:
-    # driver-class-name: org.mariadb.jdbc.Driver
-    # url: jdbc:mariadb://${DB_URL}/demo-board
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
-logging.level.root: info
 
 ---
 spring:
@@ -47,8 +44,3 @@ spring:
     name: Demo Board - PROD
   banner:
     location: classpath:banner/banner-prod.txt
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://mariadb:3306/demo-board
-
-logging.level.root: info
