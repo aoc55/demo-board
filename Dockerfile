@@ -1,8 +1,10 @@
 FROM eclipse-temurin:17
-LABEL authors="gh.k"
+LABEL authors="aoc55"
 
-COPY ./build/libs/demo-board-0.0.1-SNAPSHOT.jar app.jar
+ENV USE_PROFILE        local
+ENV A
+# ENV
+COPY ./build/libs/*.jar app.jar
 
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTIONS -Dspring.profiles.active=${USE_PROFILE} -jar /app.jar"]
