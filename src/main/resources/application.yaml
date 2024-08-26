@@ -1,5 +1,7 @@
 sever:
   port: 8080
+  servlet:
+    context-path: /demo-board
 
 spring:
   datasource:
