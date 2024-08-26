@@ -1,0 +1,20 @@
+replicaCount: 1
+
+profile: dev
+
+image:
+  repository: aoc55soft/demo-board
+  pullPolicy: IfNotPresent
+  tag: ""
+
+db:
+  url: mariadb
+  port: 3306
+  username: demo-board
+  password: board1234
+
+podLabels: {}
+
+service:
+  type: ClusterIP
+  port: 8080

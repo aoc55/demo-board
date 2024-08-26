@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "demo-board.fullname" . }}-test-connection"
+  labels:
+    {{- include "demo-board.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      command: ['curl']
+      args: ['{{- include "demo-board.fullname" . -}}:{{- .Values.service.port -}}/actuator/health']
+  restartPolicy: Never
