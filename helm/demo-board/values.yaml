@@ -1,5 +1,11 @@
-replicaCount: 1
+global:
+  db:
+    database: demo-board
+    port: 3306
+    username: demo-board
+    password: board1234
 
+replicaCount: 1
 profile: dev
 
 image:
@@ -7,14 +13,9 @@ image:
   pullPolicy: IfNotPresent
   tag: ""
 
-db:
-  url: mariadb
-  port: 3306
-  username: demo-board
-  password: board1234
-
 podLabels: {}
 
+# todo NodePort 고도화
 service:
   type: ClusterIP
   port: 8080

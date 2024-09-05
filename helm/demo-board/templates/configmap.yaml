@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "demo-board.fullname" . -}}-db
+  name: {{ include "demo-board.fullname" . }}-db
 data:
-  DB_URL: "{{ .Values.db.url }}"
-  DB_PORT: "{{ .Values.db.port }}"
-  DB_USERNAME: "{{ .Values.db.username }}"
-  DB_PASSWORD: "{{ .Values.db.password }}"
+  DB_DATABASE: "{{ .Values.global.db.database }}"
+  DB_URL: "{{ .Release.Name -}}-mariadb"
+  DB_PORT: "{{ .Values.global.db.port }}"
+  DB_USERNAME: "{{ .Values.global.db.username }}"
+  DB_PASSWORD: "{{ .Values.global.db.password }}"
