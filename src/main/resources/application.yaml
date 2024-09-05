@@ -36,6 +36,9 @@ spring:
     name: Demo Board - DEV
   banner:
     location: classpath:banner/banner-dev.txt
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
 
 ---
 spring:
